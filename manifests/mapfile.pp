@@ -51,6 +51,12 @@ define autofs::mapfile(
     require        => Class['autofs::install'],
   }
 
+  concat::fragment { "${mapfile} should not be empty":
+    target  => $mapfile,
+    content => "",
+    order   => '00',
+  }
+
   create_resources('autofs::mount', $mounts, {
     map => $mapfile
   })
